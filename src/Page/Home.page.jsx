@@ -1,9 +1,42 @@
-import React from "react";
+import axios from "axios";
+import React, {useState,useEffect} from "react";
 import EntertainmentCardSlider from "../components/Entertainment/Entertainmentcard.component";
 import TempPosters from  "../config/TempPosters.config";
 import PosterSlider from "../components/PosterSlider/PosterSlider.components"
 
 const HomePage = () => {
+  const [popularMovies, setPopularMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [latestmovies, setlatestmovies] = useState([]);
+
+  useEffect(() => {
+    const requestPopularMovies = async () => {
+      const getPopularMovies = await axios.get("/movie/popular");
+      setPopularMovies(getPopularMovies.data.results);
+    };
+
+    requestPopularMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestTopRatedMovies = async () => {
+      const getTopRatedMovies = await axios.get("/movie/top_rated");
+      setTopRatedMovies(getTopRatedMovies.data.results);
+    };
+
+    requestTopRatedMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestUpcomingMovies = async () => {
+      const getUpcomingMovies = await axios.get("/movie/upcoming");
+      setUpcomingMovies(getUpcomingMovies.data.results);
+    };
+
+    requestUpcomingMovies();
+
+  }, []);
     return(
         <>
           <div className="flex flex-col gap-20">
@@ -25,7 +58,7 @@ const HomePage = () => {
                 className="w-full h-full"
                 />
           </div>
-          <PosterSlider images={TempPosters} 
+          <PosterSlider images={popularMovies} 
           title="Premieres" 
           isDark={true}
           subtitle= "Brand New Releases Every Friday"/>
@@ -37,7 +70,7 @@ const HomePage = () => {
           <div 
           className="container mx-auto px-4 my-8">
           <PosterSlider
-           images={TempPosters} 
+           images={topRatedMovies} 
           title="Online Streaming Events" 
           isDark={false}
           subtitle= "Brand New Releases Every Friday"/>       
@@ -46,39 +79,15 @@ const HomePage = () => {
          <div 
           className="container mx-auto px-4 my-8">
           <PosterSlider
-           images={TempPosters} 
+           images={upcomingMovies} 
           title="Outdoor Events" 
           isDark={false}
           subtitle= ""/>       
          </div>
+         </>
          
-         <div 
-          className="container mx-auto px-4 my-8">
-          <PosterSlider
-           images={TempPosters} 
-          title="Laughter Therapy" 
-          isDark={false}
-          subtitle= ""/>       
-         </div>
-
-         <div 
-          className="container mx-auto px-4 my-8">
-          <PosterSlider
-           images={TempPosters} 
-          title="Popular Events" 
-          isDark={false}
-          subtitle= ""/>       
-         </div>
-         <div 
-          className="container mx-auto px-4 my-8">
-          <PosterSlider
-           images={TempPosters} 
-          title="Top Games & Sport Events" 
-          isDark={false}
-          subtitle= ""/>       
-         </div>
-            </>
         
   )
     }
+  
 export default HomePage;
