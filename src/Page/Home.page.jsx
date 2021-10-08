@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, {useState,useEffect} from "react";
 import EntertainmentCardSlider from "../components/Entertainment/Entertainmentcard.component";
-import TempPosters from  "../config/TempPosters.config";
 import PosterSlider from "../components/PosterSlider/PosterSlider.components"
 
 const HomePage = () => {

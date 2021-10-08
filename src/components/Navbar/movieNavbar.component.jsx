@@ -1,4 +1,5 @@
-import React from "react";
+import { useDescriptions } from "@headlessui/react/dist/components/description/description";
+import React, {useContext} from "react";
 import {
   BiChevronRight,
   BiSearch,
@@ -6,8 +7,10 @@ import {
   BiChevronDown,
   BiShareAlt,
 } from "react-icons/bi";
+import { MovieContext } from "../../context/movie.context";
 
 const NavSm = () => {
+  const {movie} = useContext(MovieContext)
   return (
     <>
       <div className="text-white flex items-center justify-between">

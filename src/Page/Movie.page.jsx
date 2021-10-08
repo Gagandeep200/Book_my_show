@@ -1,11 +1,51 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router";
 import { FaCcVisa, FaCcApplePay } from "react-icons/fa";
+import Slider from "react-slick";
 //component
 import Cast from '../components/Cast/Cast.component';
 import MovieHero from "../components/MovieHero/MovieHero.component"
-import TempPosters from  "../config/TempPosters.config";
 import PosterSlider from "../components/PosterSlider/PosterSlider.components"
+import { MovieContext } from "../context/movie.context";
+//config
+import TempPosters from "../config/TempPosters.config";
+
 const Movie = () => {
+  const { id } = useParams();
+  const { movie } = useContext(MovieContext);
+  const [cast, setCast] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [recommended, setRecommended] = useState([]);
+
+  useEffect(() => {
+    const requestCast = async () => {
+      const getCast = await axios.get(`/movie/${id}/credits`);
+      setCast(getCast.data.cast);
+    };
+    requestCast();
+  }, [id]);
+
+  useEffect(() => {
+    const requestSimilarMovies = async () => {
+      const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+      setSimilarMovies(getSimilarMovies.data.results);
+    };
+
+    requestSimilarMovies();
+  }, [id]);
+
+  useEffect(() => {
+    const requestRecommendedMovies = async () => {
+      const getRecommendedMovies = await axios.get(
+        `/movie/${id}/recommendations`
+      );
+      setRecommended(getRecommendedMovies.data.results);
+    };
+
+    requestRecommendedMovies();
+  }, [id]);
+
   
   const settings = {
   infinite: false,
